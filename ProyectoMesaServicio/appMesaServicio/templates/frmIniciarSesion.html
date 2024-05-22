@@ -1,0 +1,50 @@
+{% extends "index.html"%}
+{% block encabezado %}
+    {% include "encabezado.html" %}
+{% endblock%}
+{% block contenido %}
+<div class="container">
+    <div class="row justify-content-center mt-5 was-validated">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
+                    <!-- Formulario de inicio de sesión -->
+                    <form action="/login/" method="POST">
+                        {% csrf_token %}
+                        <!-- Campo para ingresar el correo -->
+                        <div class="mb-3">
+                            <label for="txtUser" class="form-label">Usuario:</label>
+                            <input type="text" class="form-control" id="txtUser" name="txtUser" required>
+                        </div>
+                        <!-- Campo para ingresar la contraseña -->
+                        <div class="mb-3">
+                            <label for="contrasena" class="form-label">Contraseña:</label>
+                            <input type="password" class="form-control" id="txtPassword" name="txtPassword" required>
+                        </div>
+                        <!-- Botón de envío del formulario -->
+                        <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+                        <!-- Mensaje de error -->
+                        <p class=" text-center text-danger mt-3">{{mensaje}}</p>
+                        <div 
+                        class="g-recaptcha" data-sitekey="6Lfk2MYpAAAAAKmNhKYrnOROemNMejmSbfcd9VoF">
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+    grecaptcha.ready(function(){
+      grecaptcha.render("g-recaptcha", {
+        sitekey: "6Lfk2MYpAAAAAKmNhKYrnOROemNMejmSbfcd9VoF"
+      });
+    });
+</script>
+ -->
+{% endblock%}
+{% block piePagina %}
+{% include "piePagina.html"%}
+{% endblock%}
