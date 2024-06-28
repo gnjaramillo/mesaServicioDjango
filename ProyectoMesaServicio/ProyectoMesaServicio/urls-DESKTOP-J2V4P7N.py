@@ -23,21 +23,30 @@ from appMesaServicio import views
 
 
 urlpatterns = [
+
+    path('', views.inicio),    
     path('admin/', admin.site.urls),
-    path('', views.inicio),
     path('login/', views.login),
     path('inicioAdministrador/', views.inicioAdministrador),
-    path('inicioEmpleado/', views.inicioEmpleado),
-    path('inicioTecnico/', views.inicioTecnico),
-    path('vistaSolicitud/', views.vistaSolicitud),
-    path('registrarSolicitud/', views.registrarSolicitud),
-    path('listarCasosParaAsignar/', views.listarCasosParaAsignar),
-    path('asignarTecnicoCaso/', views.asignarTecnicoCaso),
+    path('inicioEmpleado/', views.inicioEmpleado),    
+    path('inicioTecnico/', views.inicioTecnico),    
+    path('vistaSolicitud/', views.vistaSolicitud),    
+    path('registrarSolicitud/', views.registrarSolicitud),    
+    path('listarCasosParaAsignar/', views.listarCasos),
+    path('asignarTecnicoCaso/', views.asignarTecnicoCaso),    
+    path('listarCasosAsignados/', views.listarCasosAsignadosTecnico),    
+    path('solucionarCaso/', views.solucionarCaso),    
+    path('vistaGestionarUsuarios/', views.vistaGestionarUsuarios),    
+    path('vistaRegistrarUsuario/', views.vistaRegistrarUsuario),    
+    path('registrarUsuario/', views.registrarUsuario),    
+    path('recuperarClave/', views.recuperarClave),
     path('salir/', views.salir),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )
 
 
