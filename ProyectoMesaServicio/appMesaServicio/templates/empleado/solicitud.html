@@ -3,7 +3,7 @@
 {% include "encabezado.html" %}
 {%endblock %}
 {% block menu %}
-{% include "empleado/menuEmp.html" %}
+{% include "empleado/menu.html" %}
 {%endblock %}
 {% block contenido %}
 <h3 class="text-center mt-3 fw-bold">REGISTRO DE SOLICITUD</h3>
@@ -19,7 +19,7 @@
         <label for="cbOficinaAmbiente" class="fw-bold">Oficina-Ambiente:</label>
         <select name="cbOficinaAmbiente" id="" class="form-select" required>
             <option value="">Seleccione</option>
-            {%for ofi in oficinaAmbiente %}
+            {%for ofi in oficinasAmbientes %}
             <option value="{{ofi.id}}">{{ofi.ofiNombre}}</option>
             {%endfor%}
         </select>

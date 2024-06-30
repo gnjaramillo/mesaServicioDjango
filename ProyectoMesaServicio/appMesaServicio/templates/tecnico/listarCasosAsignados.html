@@ -3,7 +3,7 @@
 {% include "encabezado.html" %}
 {%endblock %}
 {% block menu %}
-{% include "administrador/menu.html" %}
+{% include "tecnico/menu.html" %}
 {%endblock %}
 {% block contenido %}
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -17,7 +17,7 @@
 <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.1/css/buttons.dataTables.css">
-<h3 class="fw-bold text-center">LISTA DE CASOS TÉCNICO</h3>
+<h3 class="fw-bold text-center">LISTA DE CASOS ASIGNADOS</h3>
 <div class="table-responsive">
     <table id="tblCasos" class="table table-bordered mt-3">
         <thead>
@@ -27,7 +27,7 @@
                 <th>Oficina-Ambiente</th>
                 <th>Fecha</th>
                 <th>Estado</th>
-                <th>Acciones</th>
+                <th>Acción</th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +41,7 @@
                 <td>{{caso.casEstado}}</td>
                 <td class="text-center fw-bold">
                     <i id="btnAbrirModal" onclick="agregarIdCaso('{{caso.id}}')" data-bs-toggle="modal"
-                        data-bs-target="#modalTecnicos" class="fa fa-edit"></i>
+                        data-bs-target="#modalSolucionCaso" class="fa fa-edit"></i>
                 </td>
             </tr>
             {% endfor %}
@@ -50,40 +50,52 @@
 </div>
 
 <!-- The Modal -->
-<div class="modal" id="modalTecnicos">
+<div class="modal" id="modalSolucionCaso">
     <div class="modal-dialog">
         <div class="modal-content">
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Asignación Técnico Casos</h4>
+                <h4 class="modal-title">Respuesta Solución Caso</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="/asignarTecnicoCaso/" method="post">
-            <!-- Modal body -->
-            <div class="modal-body">
-               
+            <form action="/solucionarCaso/" method="post">
+                <!-- Modal body -->
+                <div class="modal-body">
+
                     {% csrf_token %}
-                    <div>
-                        <label for="cbTecnico" class="fw-bold">Técnico de Soporte</label>
-                        <select name="cbTecnico" id="" class="form-select">
+                    <div class="mt-3">
+                        <label for="txtProcedimiento" class="fw-bold">Procedimiento</label>
+                        <textarea name="txtProcedimiento" id="txtProcedimiento" cols="30" rows="10" class="form-control"
+                            required></textarea>
+                    </div>
+                    <div class="mt-3">
+                        <label for="cbTipoProcedimiento" class="fw-bold">Tipo Procedimiento</label>
+                        <select name="cbTipoProcedimiento" id="" class="form-select">
                             <option value="">Seleccione</option>
-                            {% for tecnico in tecnicos %}
-                            <option value="{{tecnico.id}}">{{tecnico.first_name}} {{tecnico.last_name}}</option>
+                            {% for tipo in listaTipoProcedimiento %}
+                            <option value="{{tipo.id}}">{{tipo.tipNombre}}</option>
+                            {%endfor %}
+                        </select>
+                    </div>
+                    <div class="mt-3">
+                        <label for="cbTipoSolucion" class="fw-bold">Tipo Solución</label>
+                        <select name="cbTipoSolucion" id="" class="form-select">
+                            <option value="">Seleccione</option>
+                            {% for tipo in listaTipoSolucion %}
+                            <option value="{{tipo.0}}">{{tipo.0}}</option>
                             {%endfor %}
                         </select>
                     </div>
                     <input type="hidden" name="idCaso" id="idCaso" value="">
-                   
-                
-            </div>
+                </div>
 
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Asignar</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-            </div>
-        </form>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Registrar</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
