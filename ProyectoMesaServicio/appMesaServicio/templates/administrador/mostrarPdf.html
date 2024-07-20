@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+{% block encabezado %}
+{% include "encabezado.html" %}
+{% endblock %}
+
+{% block menu %}
+{% include "administrador/menu.html" %}
+{% endblock %}
+
+{% block contenido %}
+
+<style>
+    /* styles.css */
+    .btn {
+        margin-top: 40px; 
+    }
+</style>
+
+<div class="text-center">
+    <a href="/media/solicitudes.pdf" class="btn btn-primary">Generar Pdf</a>
+</div>
+
+
+<!-- <ul>
+    <a href="/media/solicitudes.pdf">
+        <li>Reporte solicitudes formato pdf</li>
+    </a>
+    <a href="/media/grafica_solicitudes.png">
+        <li>Reporte de solicitues en Gráficas</li>
+    </a>
+
+</ul> -->
+{% endblock %}
+
+{% block piePagina %}
+{% include "piePagina.html" %}
+{% endblock %}

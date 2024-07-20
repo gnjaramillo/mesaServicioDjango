@@ -25,20 +25,6 @@ tipoSolucion = [
 ]
 
 
-class OficinaAmbiente(models.Model):
-    ofiTipo = models.CharField(max_length=15, choices=tipoOficinaAmbiente,
-                               db_comment="tipo de oficina")
-    ofiNombre = models.CharField(max_length=50, unique=True,
-                                 db_comment="Nombre de la oficina o ambiente")
-    fechaHoraCreacion = models.DateTimeField(auto_now_add=True,
-                                             db_comment="Fecha y hora del registro")
-    fechaHoraActualizacion = models.DateTimeField(auto_now=True,
-                                                  db_comment="Fecha y hora última actualización")
-
-    def __str__(self) -> str:
-        return self.ofiNombre
-
-
 class User(AbstractUser):
     userTipo = models.CharField(
         max_length=15, choices=tipoUsuario, db_comment="Tipo de usuario")
@@ -51,6 +37,37 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         return self.username
+    
+
+
+class OficinaAmbiente(models.Model):
+    ofiTipo = models.CharField(max_length=15, choices=tipoOficinaAmbiente,
+                               db_comment="tipo de oficina")
+    ofiNombre = models.CharField(max_length=50, unique=True,
+                                 db_comment="Nombre de la oficina o ambiente")
+    fechaHoraCreacion = models.DateTimeField(auto_now_add=True,
+                                             db_comment="Fecha y hora del registro")
+    fechaHoraActualizacion = models.DateTimeField(auto_now=True,
+                                                  db_comment="Fecha y hora última actualización")
+
+    def __str__(self) -> str:
+        return self.ofiNombre
+    
+
+class TipoProcedimiento(models.Model):
+    tipNombre = models.CharField(
+        max_length=20, unique=True, db_comment="nombre del tipo de procedimiento")
+    tipDescripcion = models.TextField(max_length=1000, null=True,
+                                      db_comment="Aquí se hace una descripción del tipo de procedimiento")
+
+    fechaHoraCreacion = models.DateTimeField(auto_now_add=True,
+                                             db_comment="Fecha y hora del registro")
+    fechaHoraActualizacion = models.DateTimeField(auto_now=True,
+                                                  db_comment="Fecha y hora última actualización")
+
+    def __str__(self) -> str:
+        return self.tipNombre
+
 
 
 class Solicitud(models.Model):
@@ -61,7 +78,7 @@ class Solicitud(models.Model):
     solOficinaAmbiente = models.ForeignKey(
         OficinaAmbiente, on_delete=models.PROTECT,
         db_comment="Hace referencia a la oficina o ambiente donde se encuentra el equipo de la solicitud")
-    fechaHoraCreacion = models.DateTimeField(auto_now_add=True,
+    fechaHoraCreacion = models.DateField(auto_now_add=True,
                                              db_comment="Fecha y hora del registro")
     fechaHoraActualizacion = models.DateTimeField(auto_now=True,
                                                   db_comment="Fecha y hora última actualización")
@@ -89,20 +106,6 @@ class Caso(models.Model):
         return f"{self.casCodigo}"
 
 
-class TipoProcedimiento(models.Model):
-    tipNombre = models.CharField(
-        max_length=20, unique=True, db_comment="nombre del tipo de procedimiento")
-    tipDescripcion = models.TextField(max_length=1000, null=True,
-                                      db_comment="Aquí se hace una descripción del tipo de procedimiento")
-
-    fechaHoraCreacion = models.DateTimeField(auto_now_add=True,
-                                             db_comment="Fecha y hora del registro")
-    fechaHoraActualizacion = models.DateTimeField(auto_now=True,
-                                                  db_comment="Fecha y hora última actualización")
-
-    def __str__(self) -> str:
-        return self.tipNombre
-
 
 class SolucionCaso(models.Model):
     solCaso = models.ForeignKey(Caso, on_delete=models.PROTECT,
@@ -125,3 +128,5 @@ class SolucionCasoTipoProcedimientos(models.Model):
                                         db_comment="Hace referencia a la solución del Caso")
     solTipoProcedimiento = models.ForeignKey(TipoProcedimiento, on_delete=models.PROTECT,
                                              db_comment="Hace referencia al tipo de procedimiento de la solución")
+
+

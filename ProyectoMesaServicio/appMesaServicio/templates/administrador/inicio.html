@@ -10,7 +10,7 @@
 <br />
 <div class="row" style="margin: 0 auto !important; width: 55%">
   <div class="col-sm" style="margin-bottom: 5rem;">
-    <a href="#">
+    <a href="/vistaGestionarUsuarios/">
       <div class="text-center icon" style="font-size: 8rem;">
         <i class="fa fa-user fa-fade"></i>
       </div>
@@ -18,7 +18,7 @@
     <div class="text-center fw-bold">Gestionar Usuarios</div>
   </div>
   <div class="col-sm">
-    <a href="#">
+    <a href="/listarCasosParaAsignar/">
       <div class="text-center icon" style="font-size: 8rem;">
         <i class="fa fa-eye fa-fade text-danger"></i>
       </div>
@@ -26,12 +26,23 @@
     <div class="text-center fw-bold">Ver Solicitudes</div>
   </div>
   <div class="col-sm" style="margin-bottom: 5rem;">
+  
+
+
+
     <a href="#">
       <div class="text-center icon" style="font-size: 8rem;">
         <i class="fa fa-clipboard fa-fade"></i>
       </div>
     </a>
-    <div class="text-center fw-bold">Reportes</div>
+       <!-- Añadir aquí el dropdown para reportes adicionales -->
+        <a class="nav-link dropdown-toggle text-center fw-bold text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Reportes
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/generarGrafica/">Gráfica Estadística</a></li>
+            <li><a class="dropdown-item" href="/pdfSolicitudes/">Reportes PDF Solicitud</a></li>
+        </ul>
   </div>
   
 </div>

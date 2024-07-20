@@ -17,8 +17,18 @@ import random
 import string
 # importar el modelo Group - Roles
 from django.contrib.auth.models import Group
+#api rest_framework
 
 
+
+
+# Graficos estadísticos
+import os
+import matplotlib.pyplot as plt
+from django.shortcuts import render
+from django.conf import settings
+from django.db.models import Count
+from django.db.models.functions import ExtractMonth
 # Create your views here.
 
 
@@ -433,6 +443,74 @@ def recuperarClave(request):
         mensaje = str(error)
 
     return render(request, 'frmIniciarSesion.html', retorno)
+
+
+
+
+def generarGrafica(request):
+    try:
+        solicitudes = Solicitud.objects.annotate(month=ExtractMonth('fechaHoraCreacion'))\
+            .values('month')\
+            .annotate(cantidad=Count('id'))\
+            .values('month', 'cantidad')
+        
+        print(solicitudes)
+
+        meses_numeros = []
+        cantidades = []
+
+        for s in solicitudes:
+            meses_numeros.append(s['month'])
+            cantidades.append(s['cantidad'])
+
+        # Lista de nombres de meses
+        nombres_meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+
+        
+        meses = [nombres_meses[numero - 1] for numero in meses_numeros]
+
+        plt.figure(figsize=(10, 5))
+        plt.title("Cantidad de Solicitudes por Mes")
+        plt.xlabel("Mes")
+        plt.ylabel("Cantidad")
+
+        plt.bar(meses, cantidades)
+
+
+        rutaImagen = os.path.join(settings.MEDIA_ROOT, "grafica_solicitudes.png")
+        print(f"Gráfica guardada en: {rutaImagen}") # Mensaje de depuración
+        plt.savefig(rutaImagen)
+        
+
+        return render(request, "administrador/graficaPython.html")
+
+    except Exception as error:
+        mensaje = f"{error}"
+        return render(request, "administrador/graficaPython.html", {"error": mensaje})
+    
+
+
+
+def generarPdfSolicitudes(request):
+    #importamos el archivo que puede generar pdf
+    from appMesaServicio.pdfSolicitudes import Pdf
+    # obtenemos datos de las solicitudes
+    solicitudes = Solicitud.objects.all()
+    # crear un objeto de tipo Pdf que viene de la clase 
+    doc =Pdf()
+    # colocar numero de pagina en pdf
+    doc.alias_nb_pages()
+    # agrega pagina
+    doc.add_page()
+    #letra negrilla tamaño 12
+    doc.set_font('Arial', 'B',12)
+    # se llama el metodo mostrar datos y se le pasan las solicitudes
+    doc.mostrarDatos(solicitudes)
+    # exportar el pdf y lo guarda en la carpeta media
+    doc.output(f'media/solicitudes.pdf')
+    # retorna un html para mostra el pdf
+    return render(request, "administrador/mostrarPdf.html")
+
 
 
 def salir(request):
